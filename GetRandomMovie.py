@@ -14,5 +14,7 @@ with open('WATCHLIST.csv', encoding='latin_1') as csv_file:
             movies.append(movie)
 
 selected_movie = random.choice(movies)
-print('Randomly selected movie: ' + selected_movie['title'] + '\nLink: '
+print('Randomly selected movie:\n\n' + selected_movie['title'] + '\nLink: '
       + selected_movie['link'])
+
+input("\nPress enter to exit!")
