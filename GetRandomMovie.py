@@ -13,6 +13,7 @@ password = "ENTER PASSWORD HERE"
 downloadfolder = 'ENTER DOWNLOAD FOLDER HERE'
 watchlistpath = downloadfolder + 'WATCHLIST.csv'
 
+
 def delete_old_watchlist():
 
     print('Deleting old watchlist...')
@@ -64,13 +65,31 @@ def login():
 
 
 def get_random_movie():
+
     time.sleep(3)   # wait 3 seconds for download
+    tries = 0
 
     watchlist = Path(watchlistpath)
-    if watchlist.is_file() == False:
-        input('Error - watchlist has not been downloaded correctly - probably captcha!')
-        quit()
 
+    if watchlist.is_file() == False:
+        # give the download more time if it hasn't succeeded yet
+        while (watchlist.is_file() == False and (tries <= 3)):
+            time.sleep(3)
+            tries = tries + 1
+            if tries > 3:
+                input(
+                    'Error - watchlist has not been downloaded correctly!')
+                quit()
+        else:
+            movies, selected_movie = pick_movie()
+
+    else:
+        movies, selected_movie = pick_movie()
+
+    return movies, selected_movie
+
+
+def pick_movie():
     movies = []
     with open(watchlistpath, encoding='latin_1') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -100,10 +119,9 @@ driver.implicitly_wait(30)
 open_login_page()
 login()
 
-driver.close()
-
 movies, selected_movie = get_random_movie()
 printresults()
+driver.close()
 
 result = input("\nPress 1 to pick another movie, press 2 to exit!")
 
