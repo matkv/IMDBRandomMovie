@@ -11,7 +11,6 @@ import sys
 email = "ENTER EMAIL HERE"
 password = "ENTER PASSWORD HERE"
 downloadfolder = 'ENTER DOWNLOAD FOLDER HERE'
-watchlistpath = downloadfolder + 'WATCHLIST.csv'
 
 
 def delete_old_watchlist():
@@ -41,9 +40,15 @@ def login():
         elem = driver.find_element_by_name("email")
         elem.send_keys(email)
 
+        # wait for 3 seconds to avoid captcha
+        time.sleep(3)
+
         # enter the password
         elem = driver.find_element_by_name("password")
         elem.send_keys(password)
+
+        # wait for 3 seconds to avoid captcha
+        time.sleep(3)
 
         # click login button
         elem = driver.find_element_by_id("signInSubmit")
@@ -59,7 +64,7 @@ def login():
 
 
 def get_random_movie():
-    time.sleep(3)
+    time.sleep(3)   # wait 3 seconds for download
 
     watchlist = Path(watchlistpath)
     if watchlist.is_file() == False:
@@ -90,8 +95,7 @@ def printresults():
 delete_old_watchlist()
 
 driver = webdriver.Chrome()
-driver.minimize_window()
-driver.implicitly_wait(10)
+driver.implicitly_wait(30)
 
 open_login_page()
 login()
