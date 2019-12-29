@@ -11,7 +11,7 @@ import sys
 email = "ENTER EMAIL HERE"
 password = "ENTER PASSWORD HERE"
 downloadfolder = 'ENTER DOWNLOAD FOLDER HERE'
-
+watchlistpath = downloadfolder + 'WATCHLIST.csv'
 
 def delete_old_watchlist():
 
